@@ -19,3 +19,13 @@ Error: Could not find or load main class dev.webfx.platform.shared.services.boot
 Caused by: java.lang.ClassNotFoundException: dev.webfx.platform.shared.services.boot.ApplicationBooter
 `
 
+To generate the fat jar:
+
+`mvn package -P openjfx-fatjar`
+
+Then starting the application with the fat jar:
+
+`java -jar webfx-example-application-openjfx/target/webfx-example-application-openjfx-1.0.0-fat.jar`
+
+It works (it's just a simple JavaFX application saying "HelloWorld").
+
