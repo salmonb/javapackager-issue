@@ -57,7 +57,44 @@
         <plugin.javapackager.name>webfx-example</plugin.javapackager.name>
         <plugin.javapackager.displayName>webfx-example</plugin.javapackager.displayName>
         <plugin.javapackager.url/>
+        <plugin.javapackager.runnableJar/>
     </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/libs</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>libs/</classpathPrefix>
+                            <mainClass>${webfx.mainClass}</mainClass>
+                            <useUniqueVersions>false</useUniqueVersions>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
     <profiles>
         <!-- profile to make a fat standalone executable jar with all dependencies included inside -->
@@ -85,12 +122,6 @@
 
             <build>
                 <plugins>
-
-                    <!-- Generating the fat jar using the Shade plugin (will be passed to JavaPackager) -->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-shade-plugin</artifactId>
-                    </plugin>
 
                     <!-- Generating the desktop executables using the JavaPackager plugin -->
                     <plugin>
